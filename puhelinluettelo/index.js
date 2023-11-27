@@ -1,5 +1,13 @@
 const express = require('express')
+const morgan = require('morgan');
+
 const app = express()
+
+morgan.token('postData', (req) => {
+  return req.method === 'POST' ? JSON.stringify(req.body) : '';
+});
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :postData'));
 
 app.use(express.json())
 
